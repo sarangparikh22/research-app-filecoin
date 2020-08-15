@@ -6,6 +6,10 @@ Ongong technological Research is a very essential component of today's world. Th
 
 To tackle this problem we have created a decentralised repository of research papers which will be available for reading and downloading for free for everyone. The papers will be stored in pdf format in decentralised storage IPFS and the details of the paper are stored in an smart contract on the blockchain which can be used in case of disputes. Also there is an in built crowdsourcing functionality for acquiring grants for further research.
 
+## Why Filecoin? 
+
+Filecoin is a decentralised storage platform which is perfect for our use case. It is decentralised, have in-built verification mechanisms, no one controls the access to the platform and anyone can easily upload/download from the storage. This way we can easily create an open community of researchers without relying on a centralised third party. 
+
 <br />
 <img src='./list.png'>
 <br />
