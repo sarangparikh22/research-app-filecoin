@@ -9,7 +9,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  // Link
 } from "react-router-dom";
 
 // import "./App.css";
@@ -18,9 +18,12 @@ import NavComp from './components/NavComp'
 import Home from './components/Home'
 import Upload from './components/Upload'
 
-
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  state = { storageValue: 0, web3: null, accounts: null, contract: null, token: null};
+
+  updateToken = (token) => {
+    this.setState({token})
+  }
 
   componentDidMount = async () => {
     try {
@@ -83,12 +86,15 @@ class App extends Component {
               account = {this.state.accounts[0]}
               contract = {this.state.contract}
               paperArray = {this.state.paperArray}
-            />} />
+              token = {this.state.token}
+              />}
+            />
             <Route exact path="/upload" component={() => <Upload 
               web3 = {this.state.web3}
               account = {this.state.accounts[0]}
               contract = {this.state.contract}
-            />} />
+              updateToken = {this.updateToken.bind(this)}
+              />} />
           </Switch>
         </Router>
       </div>

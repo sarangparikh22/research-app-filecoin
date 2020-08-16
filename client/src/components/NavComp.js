@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Navbar, Nav, Button, Badge } from 'react-bootstrap';
+import swal from 'sweetalert';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -10,6 +11,10 @@ export class NavComp extends Component {
 
         let tx = await contract.methods.withdraw().send({from: accounts})
         console.log(tx);
+        swal({
+            title: "Funds withdrawn!",
+            icon: "success",
+          });
     }
     render() {
         return (

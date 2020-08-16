@@ -4,6 +4,12 @@ import { Container, Header, Card, Button, Loader, Form, Label } from 'semantic-u
 import Paper from './Paper'
 
 export class Home extends Component {
+
+    constructor(props) {
+        super(props) 
+        // console.log(this.props)
+    }
+
     render() {
         return (
             <div>
@@ -16,6 +22,7 @@ export class Home extends Component {
                                     p={p}
                                     account = {this.props.account}
                                     contract = {this.props.contract}
+                                    token = {this.props.token}
                                 />
                         })}
                     </Card.Group>

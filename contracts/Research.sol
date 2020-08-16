@@ -10,6 +10,7 @@ contract Research {
         string paperTitle;
         string paperAbstract;
         string paperURL;
+        string cid;
         uint goal;
         uint totalContribution;
     }
@@ -20,7 +21,7 @@ contract Research {
     
     mapping(address => uint) public balanceMapping;
     
-    function addPaper(string memory _authors, string memory _paperTitle, string memory _abstract, string memory _paperURL, uint _goal) public {
+    function addPaper(string memory _authors, string memory _paperTitle, string memory _abstract, string memory _paperURL, string memory _cid, uint _goal) public {
         Paper storage p = paperMapping[totalPapers];
         p.id = totalPapers;
         p.owner = msg.sender;
@@ -28,6 +29,7 @@ contract Research {
         p.paperTitle = _paperTitle;
         p.paperAbstract = _abstract;
         p.paperURL = _paperURL;
+        p.cid = _cid;
         p.goal = _goal;
         totalPapers += 1;
     }

@@ -1,12 +1,26 @@
 import React, { Component } from 'react'
 import { Container, Header, Card, Button, Loader, Form, TextArea } from 'semantic-ui-react'
 import ipfs from '../ipfs'
+import swal from 'sweetalert'
+import { createPow, ffsTypes, ffsOptions } from "@textile/powergate-client";
+
+const host = "http://0.0.0.0:6002"; // or whatever powergate instance you want
+
+const pow = createPow({ host });
 
 export class Upload extends Component {
-    state = {ipfsURL: ""}
+    state = {ipfsURL: "", cid: "", jobId: ""}
+
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     };
+
+    generateToken = async () => {
+        const { token } = await pow.ffs.create();
+        this.setState({token});
+        console.log(token)
+        pow.setToken(token);
+      };
 
     captureFile = (event) => {
         event.stopPropagation()
@@ -19,27 +33,53 @@ export class Upload extends Component {
 
     convertToBuffer = async(reader) => {
       //file is converted to a buffer to prepare for uploading to IPFS
+      // cache data in IPFS in preparation to store it using FFS
+
+        await this.generateToken()
+
       const buffer = await Buffer.from(reader.result);
-      //set this buffer -using es6 syntax
+
+      const { cid } = await pow.ffs.addToHot(buffer);
+      this.setState({cid})
+        // console.log(cid)
+      // store the data in FFS using the default storage configuration
+      const { jobId } = await pow.ffs.pushConfig(cid, ffsOptions.withOverrideConfig(true));
+      console.log("JOB ID");
+      console.log(jobId)
+
+      const { info } = await pow.ffs.info();
+      console.log("INFO");
+      console.log(info);
+
+    //   set this buffer -using es6 syntax
       this.setState({buffer});
       ipfs.add(this.state.buffer)
       .then( (hash) => {
-          console.log(hash);
+        //   console.log(hash);
           this.setState({ipfsURL: hash[0].hash})
-      })
+      })     
     };
 
     submitPaper = async () => {
-        const { account, contract } = this.props;
 
+        const { account, contract } = this.props;
         let tx = await contract.methods.addPaper(
             this.state.paperAuthor,
             this.state.paperTitle,
             this.state.paperAbstract,
             this.state.ipfsURL,
+            this.state.cid,
             this.state.paperGoal
         ).send({from: account})
         console.log(tx)
+        
+        swal({
+            title: "Transaction sent!",
+            text: 'Paper has been uploaded',
+            icon: "success",
+          });
+
+          await this.props.updateToken(this.state.token)
     }
 
     render() {
@@ -70,7 +110,8 @@ export class Upload extends Component {
                             <input type="file"  onChange={this.captureFile.bind(this)}/>
                         </Form.Field>
                         <Form.Field>
-                            <label>IPFS Hash: {this.state.ipfsURL}</label>
+                            {/* <label>IPFS Hash: {this.state.ipfsURL}</label> */}
+                            <label>CID: {this.state.cid}</label>
                         </Form.Field>
                         <Button onClick={this.submitPaper.bind(this)} primary fluid><i className="upload icon" />Upload</Button>
                     </Form>
