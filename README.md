@@ -31,34 +31,30 @@ At the same time, the person uploading the paper can also ask the community for 
 In this way, the research output of the community as a whole will increase and more people will be able to enter the field because of availability of quality content for free.
 
 
-We also have a video demo [here.](https://vimeo.com/434983695)
+We also have a video demo [here.](https://youtu.be/ryuxdeZkeqY)
 
 Here are the steps for installation and testing the project - 
 
 # Installation
 
 ```sh
-$ git clone https://github.com/tHeMaskedMan981/Private-delegation-Maker-Governance.git
-$ cd Private-delegation-Maker-Governance
-$ cd zk_library
-$ npm install
-$ cd frontend
-$ npm install
-$ cd frontend/client
+$ git clone https://github.com/sarangparikh22/research-app-filecoin.git
+$ cd research-app-filecoin
+$ cd client
 $ npm install
 ````
 # Deploying Contract and Seting up 
 ```sh
-$ cd frontend
+$ cd ..
 $ truffle migrate --reset --network develop
-$ node setup.js
-$ cd zk_library
-$ node server.js
 ```
 
 # Serving the Application
+
+Set up a Powergate node using instructions [here.](https://docs.filecoin.io/build/examples/simple-pinning-service/step-1-powergate-setup/#requirements) With the powergate instance running, follow these steps:
+
 ```sh
-$ cd frontend/client
+$ cd client
 $ npm start
 ```
 
